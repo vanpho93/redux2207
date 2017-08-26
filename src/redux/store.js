@@ -26,6 +26,13 @@ const reducer = (state = defaultState, action) => {
         const word = new NewWord(en, vn);
         return { filterStatus: state.filterStatus, arrWords: [word].concat(state.arrWords) };
     }
+    if (action.type === 'REMOVE') {
+        const { en } = action;
+        return { 
+            filterStatus: state.filterStatus, 
+            arrWords: state.arrWords.filter(e => e.en !== en) 
+        }
+    }
     return state;
 }
 
