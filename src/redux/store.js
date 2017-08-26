@@ -24,27 +24,27 @@ const reducer = (state = defaultState, action) => {
     if (action.type === 'ADD') {
         const { en, vn } = action; // const en = action.en, vn = action.vn
         const word = new NewWord(en, vn, false);
-        return { filterStatus: state.filterStatus, arrWords: [word].concat(state.arrWords) };
+        return { ...state, arrWords: [word].concat(state.arrWords) };
     }
     if (action.type === 'REMOVE') {
         const { en } = action;
         return { 
-            filterStatus: state.filterStatus, 
+            ...state,
             arrWords: state.arrWords.filter(e => e.en !== en) 
         }
     }
     if (action.type === 'CHANGE_FILTER_STATUS') {
         return {
-            arrWords: state.arrWords,
+            ...state,
             filterStatus: action.newStatus
         };
     }
     if (action.type === 'TOGGLE_MEMORIZED') {
         return {
-            filterStatus: state.filterStatus,
+            ...state,
             arrWords: state.arrWords.map(e => {
                 if (e.en !== action.en) return e;
-                return { vn: e.vn, en: e.en, memorized: !e.memorized };
+                return { ...e, memorized: !e.memorized };
             })
         }
     }
