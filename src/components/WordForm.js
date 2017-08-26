@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-export default class WordForm extends Component {
+class WordForm extends Component {
+    addWord() {
+        const { txtEn, txtVn } = this.refs;
+        this.props.dispatch({ type: 'ADD', vn: txtVn.value, en: txtEn.value });
+    }
+
     render() {
         return (
             <div style={{ backgroundColor: 'gray', padding: 10, width: 150 }}>
@@ -8,8 +14,10 @@ export default class WordForm extends Component {
                 <br /><br />
                 <input type="text" placeholder="Enter Vietnamese meaning" ref="txtVn" />
                 <br /><br />
-                <button>Add</button>
+                <button onClick={this.addWord.bind(this)}>Add</button>
             </div>
         );
     }
 }
+
+export default connect()(WordForm);

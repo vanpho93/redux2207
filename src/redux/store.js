@@ -19,8 +19,13 @@ const defaultState = {
     arrWords,
     filterStatus: 'SHOW_ALL'
 };
-
+// reducer phai la pure function this.state.value++
 const reducer = (state = defaultState, action) => {
+    if (action.type === 'ADD') {
+        const { en, vn } = action; // const en = action.en, vn = action.vn
+        const word = new NewWord(en, vn);
+        return { filterStatus: state.filterStatus, arrWords: [word].concat(state.arrWords) };
+    }
     return state;
 }
 
