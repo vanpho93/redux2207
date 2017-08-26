@@ -39,6 +39,15 @@ const reducer = (state = defaultState, action) => {
             filterStatus: action.newStatus
         };
     }
+    if (action.type === 'TOGGLE_MEMORIZED') {
+        return {
+            filterStatus: state.filterStatus,
+            arrWords: state.arrWords.map(e => {
+                if (e.en !== action.en) return e;
+                return { vn: e.vn, en: e.en, memorized: !e.memorized };
+            })
+        }
+    }
     return state;
 }
 
