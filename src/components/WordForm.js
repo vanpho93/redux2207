@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import * as actionCreators from '../redux/action';
 
 class WordForm extends Component {
     addWord() {
         const { txtEn, txtVn } = this.refs;
-        this.props.dispatch({ type: 'ADD', vn: txtVn.value, en: txtEn.value });
+        // const action = addNewWord(txtEn.value, txtVn.value);
+        // this.props.dispatch(action);
+        this.props.addNewWord(txtEn.value, txtVn.value);
     }
 
     render() {
@@ -20,4 +23,4 @@ class WordForm extends Component {
     }
 }
 
-export default connect()(WordForm);
+export default connect(null, actionCreators)(WordForm);

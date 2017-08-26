@@ -6,8 +6,6 @@ class WordFilter extends Component {
         this.props.dispatch({ type: 'CHANGE_FILTER_STATUS', newStatus });
     }
 
-    
-
     render() {
         const getStyle = (status) => {
             const condition = this.props.filterStatus === status;
