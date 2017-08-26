@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-export default class WordFilter extends Component {
+class WordFilter extends Component {
+    changeFilterStatus(newStatus) {
+        this.props.dispatch({ type: 'CHANGE_FILTER_STATUS', newStatus });
+    }
+
     render() {
         return (
             <div>
-                <button>SHOW_ALL</button>            
-                <button>SHOW_MEMORIZED</button>            
-                <button>SHOW_FORGOT</button>  
+                <button onClick={() => this.changeFilterStatus('SHOW_ALL')}>SHOW_ALL</button>            
+                <button onClick={() => this.changeFilterStatus('SHOW_MEMORIZED')}>SHOW_MEMORIZED</button>            
+                <button onClick={() => this.changeFilterStatus('SHOW_FORGOT')}>SHOW_FORGOT</button>  
             </div>          
         );
     }
 }
+
+export default connect()(WordFilter);

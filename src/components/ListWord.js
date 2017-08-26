@@ -6,12 +6,18 @@ import WordFilter from './WordFilter';
 
 class ListWord extends Component {
     render() {
+        const { arrWords, filterStatus } = this.props;
+        const filteredArrWord = arrWords.filter(e => {
+            if (filterStatus === 'SHOW_ALL') return true;
+            if (filterStatus === 'SHOW_MEMORIZED') return e.memorized;
+            return !e.memorized;
+        });
         return (
             <div>
                 <WordFilter />
                 <br />
                 <WordForm />
-                { this.props.arrWords.map((e, i) => (
+                { filteredArrWord.map((e, i) => (
                     <Word 
                         en={e.en} 
                         vn={e.vn} 
@@ -27,4 +33,9 @@ class ListWord extends Component {
     }
 }
 
-export default connect(state => ({ arrWords: state.arrWords }))(ListWord);
+const mapStateToProp = state => ({ 
+    arrWords: state.arrWords,
+    filterStatus: state.filterStatus 
+});
+
+export default connect(mapStateToProp)(ListWord);

@@ -23,7 +23,7 @@ const defaultState = {
 const reducer = (state = defaultState, action) => {
     if (action.type === 'ADD') {
         const { en, vn } = action; // const en = action.en, vn = action.vn
-        const word = new NewWord(en, vn);
+        const word = new NewWord(en, vn, false);
         return { filterStatus: state.filterStatus, arrWords: [word].concat(state.arrWords) };
     }
     if (action.type === 'REMOVE') {
@@ -32,6 +32,12 @@ const reducer = (state = defaultState, action) => {
             filterStatus: state.filterStatus, 
             arrWords: state.arrWords.filter(e => e.en !== en) 
         }
+    }
+    if (action.type === 'CHANGE_FILTER_STATUS') {
+        return {
+            arrWords: state.arrWords,
+            filterStatus: action.newStatus
+        };
     }
     return state;
 }
