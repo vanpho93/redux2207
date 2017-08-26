@@ -1,5 +1,5 @@
 // reducer state store action
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 
 class NewWord {
     constructor(en, vn, memorized) {
@@ -19,37 +19,69 @@ const defaultState = {
     arrWords,
     filterStatus: 'SHOW_ALL'
 };
-// reducer phai la pure function this.state.value++
-const reducer = (state = defaultState, action) => {
+
+const arrWordsReducer = (state = arrWords, action) => {
     if (action.type === 'ADD') {
         const { en, vn } = action; // const en = action.en, vn = action.vn
         const word = new NewWord(en, vn, false);
-        return { ...state, arrWords: [word].concat(state.arrWords) };
+        return [word].concat(state);
     }
     if (action.type === 'REMOVE') {
         const { en } = action;
-        return { 
-            ...state,
-            arrWords: state.arrWords.filter(e => e.en !== en) 
-        }
-    }
-    if (action.type === 'CHANGE_FILTER_STATUS') {
-        return {
-            ...state,
-            filterStatus: action.newStatus
-        };
+        return state.filter(e => e.en !== en);
     }
     if (action.type === 'TOGGLE_MEMORIZED') {
-        return {
-            ...state,
-            arrWords: state.arrWords.map(e => {
+        return state.map(e => {
                 if (e.en !== action.en) return e;
                 return { ...e, memorized: !e.memorized };
-            })
-        }
+        });
     }
     return state;
-}
+};
+
+const filterStatusReducer = (state = 'SHOW_ALL', action) => {
+    if (action.type === 'CHANGE_FILTER_STATUS') {
+        return action.newStatus;
+    }
+    return state;
+};
+
+// reducer phai la pure function this.state.value++
+// const reducer = (state = defaultState, action) => {
+//     if (action.type === 'ADD') {
+//         const { en, vn } = action; // const en = action.en, vn = action.vn
+//         const word = new NewWord(en, vn, false);
+//         return { ...state, arrWords: [word].concat(state.arrWords) };
+//     }
+//     if (action.type === 'REMOVE') {
+//         const { en } = action;
+//         return { 
+//             ...state,
+//             arrWords: state.arrWords.filter(e => e.en !== en) 
+//         }
+//     }
+//     if (action.type === 'CHANGE_FILTER_STATUS') {
+//         return {
+//             ...state,
+//             filterStatus: action.newStatus
+//         };
+//     }
+//     if (action.type === 'TOGGLE_MEMORIZED') {
+//         return {
+//             ...state,
+//             arrWords: state.arrWords.map(e => {
+//                 if (e.en !== action.en) return e;
+//                 return { ...e, memorized: !e.memorized };
+//             })
+//         }
+//     }
+//     return state;
+// }
+
+const reducer = combineReducers({
+    arrWords: arrWordsReducer,
+    filterStatus: filterStatusReducer
+});
 
 const store = createStore(reducer);
 
