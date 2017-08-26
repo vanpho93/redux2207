@@ -1,29 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Word from './Word';
 import WordForm from './WordForm';
 import WordFilter from './WordFilter';
 
-class NewWord {
-    constructor(en, vn, memorized) {
-        this.en = en;
-        this.vn = vn;
-        this.memorized = memorized;
-    }
-}
-
-const arrWords = [
-    new NewWord('Hello', 'Xin chao', false),
-    new NewWord('Good bye!', 'Tam biet', true),
-    new NewWord('Moring', 'Buoi sang', false)
-];
-
-export default class ListWord extends Component {
+class ListWord extends Component {
     render() {
         return (
             <div>
                 <WordFilter />
+                <br />
                 <WordForm />
-                { arrWords.map((e, i) => (
+                { this.props.arrWords.map((e, i) => (
                     <Word 
                         en={e.en} 
                         vn={e.vn} 
@@ -38,3 +26,5 @@ export default class ListWord extends Component {
         );
     }
 }
+
+export default connect(state => ({ arrWords: state.arrWords }))(ListWord);
